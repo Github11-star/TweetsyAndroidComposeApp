@@ -12,6 +12,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.firozpocyt.tweetsy.api.TweetsyAPI
 import com.firozpocyt.tweetsy.screens.CategoryScreen
 import com.firozpocyt.tweetsy.screens.DetailScreen
@@ -28,9 +33,29 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TweetsyTheme {
-                //CategoryScreen()
-                DetailScreen()
+                App()
             }
+        }
+    }
+}
+
+@Composable
+fun App() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "category"){
+        composable(route = "category"){
+            CategoryScreen {
+                navController.navigate("detail/${it}")
+            }
+        }
+        composable(route = "detail/{category}",
+        arguments = listOf(
+            navArgument("category"){
+                type = NavType.StringType
+            }
+        )
+        ){
+            DetailScreen()
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.firozpocyt.tweetsy.models
 
 data class TweetListItem(
-    val category: String,
-    val text: String
+    val category: String? = null,
+    val text: String? = null
 )
